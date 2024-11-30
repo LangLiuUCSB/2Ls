@@ -61,7 +61,7 @@ namespace _2Ls
         const T *data() const noexcept { return _data; }
 
         template <typename InputIterator>
-        void assign(InputIterator first, InputIterator last)
+        virtual void assign(InputIterator first, InputIterator last)
         {
             const size_t n = std::distance(first, last);
             if (n > _max_size)
@@ -69,14 +69,14 @@ namespace _2Ls
             _end = n;
             std::copy(first, last, _data);
         }
-        void assign(const size_t &n, const T &value)
+        virtual void assign(const size_t &n, const T &value)
         {
             if (n > _max_size)
                 throw std::length_error("BoxArray::assign - size exceeds max_end");
             _end = n;
             std::fill(_data, _data + n, value);
         }
-        void assign(std::initializer_list<T> il)
+        virtual void assign(std::initializer_list<T> il)
         {
             const size_t n = il.size();
             if (n > _max_size)
@@ -84,16 +84,16 @@ namespace _2Ls
             _end = n;
             std::copy(il.begin(), il.end(), _data);
         }
-        void push(const T &value)
+        virtual void push(const T &value)
         {
             if (_end == _max_size)
-                throw std::overflow_error("_2Ls::Stack::push overflow");
+                throw std::overflow_error("_2Ls::BoxArray::push overflow");
             _data[_end++] = value;
         }
-        void pop()
+        virtual void pop()
         {
             if (_end == 0)
-                throw std::underflow_error("_2Ls::Stack::pop overflow");
+                throw std::underflow_error("_2Ls::BoxArray::pop overflow");
             --_end;
         }
     };
