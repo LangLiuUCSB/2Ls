@@ -8,16 +8,18 @@ namespace _2Ls
     template <typename T>
     class BoxQueue : public BoxArray<T>
     {
+    protected:
         size_t _start = 0;
 
     public:
-        BoxQueue(size_t size) : BoxArray<T>(size) {}              // Parameterized constructor
-        BoxQueue() noexcept = default;                            // Default constructor
-        BoxQueue(const BoxQueue &) noexcept = default;            // Copy constructor
-        BoxQueue(BoxQueue &&) noexcept = default;                 // Move constructor
-        BoxQueue &operator=(const BoxQueue &) noexcept = default; // Copy assignment
-        BoxQueue &operator=(BoxQueue &&) noexcept = default;      // Move assignment
-        ~BoxQueue() noexcept = default;                           // Default destructor
+        BoxQueue(const size_t &size = 0, T data[] = nullptr)
+            : BoxArray<T>(size, data) {}                               // Parameterized constructor
+        BoxQueue(std::initializer_list<T> init) : BoxArray<T>(init) {} // Initializer-List constructor
+        BoxQueue(const BoxQueue &) noexcept = default;                 // Copy constructor
+        BoxQueue(BoxQueue &&) noexcept = default;                      // Move constructor
+        BoxQueue &operator=(const BoxQueue &) noexcept = default;      // Copy assignment
+        BoxQueue &operator=(BoxQueue &&) noexcept = default;           // Move assignment
+        ~BoxQueue() noexcept = default;                                // Default destructor
 
         T *begin() noexcept override { return this->_data + _start; }
         const T *begin() const noexcept override { return this->_data + _start; }
