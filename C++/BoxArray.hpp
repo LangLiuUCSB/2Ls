@@ -11,23 +11,22 @@ namespace _2Ls
     class BoxArray
     {
     protected:
+        size_t _max_size;
         T *_data;
-        size_t _max_size, _end = 0;
+        size_t _end = 0;
 
     public:
-        BoxArray(const size_t &size) noexcept
-            : _data(new T[size]), _max_size(size) {} // Parameterized constructor
+        BoxArray(const size_t &size = 0, T data[] = nullptr) noexcept
+            : _max_size(size), _data(data ? data : new T[size]) {} // Parameterized constructor
         BoxArray(std::initializer_list<T> init)
-            : _data(new T[init.size()]), _max_size(init.size()), _end(init.size())
-        {
-            std::copy(init.begin(), init.end(), _data.get());
-        }
-        BoxArray() : _data(nullptr), _max_size(0) {}              // Default constructor
-        BoxArray(const BoxArray &) noexcept = default;            // Copy constructor
-        BoxArray(BoxArray &&) noexcept = default;                 // Move constructor
-        BoxArray &operator=(const BoxArray &) noexcept = default; // Copy assignment
-        BoxArray &operator=(BoxArray &&) noexcept = default;      // Move assignment
-        virtual ~BoxArray() { delete[] _data; }                   // Default destructor
+            : _data(new T[init.size()]),
+              _max_size(init.size()),
+              _end(init.size()) { std::copy(init.begin(), init.end(), _data.get()); } // Initializer-List constructor
+        BoxArray(const BoxArray &) noexcept = default;                                // Copy constructor
+        BoxArray(BoxArray &&) noexcept = default;                                     // Move constructor
+        BoxArray &operator=(const BoxArray &) noexcept = default;                     // Copy assignment
+        BoxArray &operator=(BoxArray &&) noexcept = default;                          // Move assignment
+        virtual ~BoxArray() { delete[] _data; }                                       // Default destructor
 
         virtual T *begin() noexcept { return _data; }
         virtual const T *begin() const noexcept { return _data; }
